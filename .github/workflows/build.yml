@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: evcc-io/app
-          ref: ${{ vars.EVCC_APP_REF }}
+          ref: 8091f0a16f2ecb6ee5bdbb108114f53766bb4ec1 # evcc-io/app PR #366
           path: app
           persist-credentials: false
 
