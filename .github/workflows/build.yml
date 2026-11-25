@@ -1,0 +1,50 @@
+name: Android release build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out publisher
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check out evcc app
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: evcc-io/app
+          ref: dd95b67c4fda0e33a79ff414d08dffd5c5c0fe29
+          path: app
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: app/.node-version
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Prepare and validate branded app
+        env:
+          EXPO_OWNER: ${{ vars.EXPO_OWNER }}
+          EXPO_PROJECT_ID: ${{ vars.EXPO_PROJECT_ID }}
+        run: |
+          node scripts/prepare.mjs
+          cd app
+          npm ci
+          node --env-file=../branding.env --import tsx e2e/check-white-label-config.mts branded
+
+      - name: Start EAS Build
+        working-directory: app
+        env:
+          EAS_NO_VCS: '1'
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          : "${EXPO_TOKEN:?Set the EXPO_TOKEN GitHub Actions secret}"
+          npx --yes eas-cli@27.11.0 build --platform android --profile production --non-interactive --no-wait

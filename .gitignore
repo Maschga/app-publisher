@@ -1,0 +1,9 @@
+/app/
+.env
+.env.*
+credentials.json
+*.jks
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
