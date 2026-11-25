@@ -1,4 +1,6 @@
-/app/
+/*
+!/app
+!/custom-assets
 .env
 .env.*
 credentials.json
@@ -7,3 +9,6 @@ credentials.json
 *.p8
 *.p12
 *.mobileprovision
+/app/android
+/app/ios
+/app/.expo
