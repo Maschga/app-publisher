@@ -11,6 +11,8 @@ Builds a branded Android App Bundle from a pinned [evcc app](https://github.com/
 
 For the first test, the workflow pins the commit from [evcc app PR #366](https://github.com/evcc-io/app/pull/366). No `EVCC_APP_REF` variable is needed. Once an upstream release includes the white-label changes, replace the pinned ref in `.github/workflows/build.yml` with that release's commit SHA.
 
+Keep `build.production.node` in `eas.json` aligned with `.node-version` at the pinned evcc app revision so GitHub Actions and the EAS worker use the same Node.js and bundled npm versions.
+
 Branding, Expo/EAS project details, and Android package name are in `eas.json`; artwork is in `custom-assets/`. Update these when configuring another app. iOS builds are disabled; the Apple Team ID in `eas.json` is only needed if enabling iOS.
 
 MIT applies to the publisher configuration and documentation, not the EnergyHub21 artwork. Roboto fonts retain their [own license](custom-assets/fonts/LICENSE).

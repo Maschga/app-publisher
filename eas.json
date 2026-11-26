@@ -4,6 +4,7 @@
   },
   "build": {
     "production": {
+      "node": "26.13.0",
       "distribution": "store",
       "autoIncrement": true,
       "android": {
